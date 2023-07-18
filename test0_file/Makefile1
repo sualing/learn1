@@ -1,0 +1,34 @@
+CC := /usr/bin/gcc
+#CC := arm-linux-gnueabi-gcc
+TARGET = makefile_test
+
+DEBUG = -Wall -c
+
+CFLAGS += -fPIC -DPIC
+
+CFLAGS += -I./
+
+LDFLAGS += -L../lib
+
+#LIBS +=-lndk  
+
+src_path=./
+src = $(foreach dir,$(src_path),$(wildcar $(dir)*.c))
+
+obj_name = $(patsubst %.c, %.o, $(src))
+
+INC = -I./
+INC += -I./inc/ 
+
+$(TARGET) : test.o filerw.o
+	$(CC) -o $@ $^ $(TARGET)	
+	@echo "\nmakefile compile version :$(VERSION), target :$(TARGET)\n"
+
+%.o : %.c
+	$(CC) $(DEBUG) $(INC) $^ -o $@ 
+
+.PHONY :
+clean:
+	@echo "start clean target and objects \n"
+		rm $(TARGET) $(obj_name)
+
